@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
@@ -59,6 +60,41 @@ public class TwinStickMovement : MonoBehaviour
 
     private void HandleRotation()
     {
-        throw new System.NotImplementedException();
+        if (_isGamepad)
+        {
+            // Rotate player
+            if (Mathf.Abs(_aim.x) > _controllerDeadzone || Mathf.Abs(_aim.y) > _controllerDeadzone)
+            {
+                var playerDirection = Vector3.right * _aim.x + Vector3.forward * _aim.y;
+                if (playerDirection.sqrMagnitude > 0.0f)
+                {
+                    var newRotation = Quaternion.LookRotation(playerDirection, Vector3.up);
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, newRotation,
+                        _gamepadRotateSmoothing * Time.deltaTime);
+                }
+            }
+        }
+        else
+        {
+            var ray = Camera.main.ScreenPointToRay(_aim);
+            var groundPlane = new Plane(Vector3.up, Vector3.zero);
+
+            if (groundPlane.Raycast(ray, out var rayDistance))
+            {
+                var point = ray.GetPoint(rayDistance);
+                LookAt(point);
+            }
+        }
+    }
+
+    private void LookAt(Vector3 lookPoint)
+    {
+        var heightCorrectedPoint = new Vector3(lookPoint.x, transform.position.y, lookPoint.z);
+        transform.LookAt(heightCorrectedPoint);
+    }
+
+    public void OnDeviceChange(PlayerInput pi)
+    {
+        _isGamepad = pi.currentControlScheme.Equals("Gamepad");
     }
 }
