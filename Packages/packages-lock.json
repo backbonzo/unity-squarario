@@ -31,7 +31,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.2d.pixel-perfect": {
-      "version": "5.0.1",
+      "version": "5.0.3",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -84,6 +84,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.cinemachine": {
+      "version": "2.7.9",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.collab-proxy": {
       "version": "1.9.0",
       "depth": 0,
@@ -108,7 +115,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.visualstudio": {
-      "version": "2.0.11",
+      "version": "2.0.17",
       "depth": 0,
       "source": "registry",
       "dependencies": {
